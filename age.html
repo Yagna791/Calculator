@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Age Calculator Hub</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #686c71;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: black;
+      backdrop-filter: blur(8px);
+      padding: 1rem 2rem;
+      text-align: center;
+      animation: slideDown 1s ease forwards;
+    }
+
+    .home-btn {
+      background: #7c106a;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+      font-display: right;;
+    }
+
+    .home-btn:hover {
+      background: rgb(110, 54, 54);
+      transition: background 0.3s ease;
+      font-display: right;
+    }
+
+    .container-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .container {
+      width: 20%;
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      animation: fadeIn 0.6s ease;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      animation: fadeIn 0.8s ease;
+      border-left: 5px solid #7c106a; /* Shiny purple color */
+    border-top: 5px solid #7c0668;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+    }
+
+    h2 {
+      color:rgb(110, 54, 54) ;
+      margin-bottom: 1rem;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+      text-align: left;
+      margin-left:40px;
+    }
+
+    .input-group label {
+      font-weight: bold;
+      display: block;
+      align-items: center;
+      justify-content: space-between;
+      margin-left:10px;
+    }
+
+    .input-group input {
+      width: 60%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      cursor: pointer;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .calculate-btn {
+      display: block;
+      width: 200px;
+      height:50px;
+      border: none;
+      padding: 1px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      background:rgb(110, 54, 54);
+      color: white;
+      transition: background 0.3s ease;
+      align-items: center;
+      margin-left:40px;
+    }
+
+    .calculate-btn:hover {
+      background:rgb(109, 106, 106);
+      color:black;
+    }
+
+    .result {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #0077b6;
+    }
+    footer {
+      text-align: center;
+      background:#686c71;
+      color: white;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎂 Age Calculator</h1>
+    <a href="index.html" class="home-btn">🏠 Home</a>
+  </header>
+  <div class="container-wrapper">
+    <div class="container">
+      <h2>📅 Calculate Your Age</h2>
+      <div class="input-group">
+        <label for="dob">Select Your Date of Birth:</label>
+        <input type="date" id="dob">
+      </div>
+      <button class="calculate-btn" onclick="calculateAge()">Calculate Age</button>
+      <div class="result" id="ageResult"></div>
+    </div>
+    <div class="container">
+      <h2><center>👥 Calculate Age Difference</center></h2>
+      <div class="input-group">
+        <label for="dob1">First Person's Date of Birth:</label>
+        <input type="date" id="dob1">
+      </div>
+      <div class="input-group">
+        <label for="dob2">Second Person's Date of Birth:</label>
+        <input type="date" id="dob2">
+      </div>
+      <button class="calculate-btn" onclick="calculateAgeDifference()">Calculate Difference</button>
+      <div class="result" id="ageDiffResult"></div>
+    </div>
+  </div>
+  <footer>
+    © 2025 Calculator Hub | Age & Age Difference Calculator
+  </footer>
+  <script>
+    function calculateAge() {
+      const dob = document.getElementById("dob").value;
+      const result = document.getElementById("ageResult");
+      if (!dob) {
+        result.textContent = "Please select your date of birth!";
+        result.style.color = "#d00000";
+        return;
+      }
+      const dobDate = new Date(dob);
+      const today = new Date();
+      let years = today.getFullYear() - dobDate.getFullYear();
+      let months = today.getMonth() - dobDate.getMonth();
+      let days = today.getDate() - dobDate.getDate();
+      if (days < 0) {
+        months -= 1;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+      if (months < 0) {
+        years -= 1;
+        months += 12;
+      }
+      result.style.color = "#7c106a";
+      result.innerHTML = `You are <strong>${years} years, ${months} months, and ${days} days</strong> old.`;
+    }
+    function calculateAgeDifference() {
+      const dob1 = document.getElementById("dob1").value;
+      const dob2 = document.getElementById("dob2").value;
+      const result = document.getElementById("ageDiffResult");
+      if (!dob1 || !dob2) {
+        result.textContent = "Please select both dates of birth!";
+        result.style.color = "#7c106a";
+        return;
+      }
+      const date1 = new Date(dob1);
+      const date2 = new Date(dob2);
+      let olderDate = date1 > date2 ? date1 : date2;
+      let youngerDate = date1 > date2 ? date2 : date1;
+      let years = olderDate.getFullYear() - youngerDate.getFullYear();
+      let months = olderDate.getMonth() - youngerDate.getMonth();
+      let days = olderDate.getDate() - youngerDate.getDate();
+      if (days < 0) {
+        months -= 1;
+        days += new Date(olderDate.getFullYear(), olderDate.getMonth(), 0).getDate();
+      }
+      if (months < 0) {
+        years -= 1;
+        months += 12;
+      }
+      result.style.color = "#7c106a";
+      result.innerHTML = `The age difference is: <strong>${years} years, ${months} months, and ${days} days.</strong>`;
+    }
+  </script>
+</body>
+</html>

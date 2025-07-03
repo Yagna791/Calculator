@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Financial Calculator - Calculator Hub</title>
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>💰 Financial Calculator Hub</h1>
+    <a href="index.html" class="home-btn">🏠 Home</a>
+  </header>
+<style>
+      .home-btn {
+      background: #7c106a;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+      font-display: right;;
+    }
+
+    .home-btn:hover {
+      background: rgb(110, 54, 54);
+      transition: background 0.3s ease;
+      font-display: right;
+    }
+    footer {
+      text-align: center;
+      background:#686c71;
+      color: white;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    .calculator-section {
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      animation: fadeIn 0.8s ease;
+      border-left: 5px solid #7c106a; /* Shiny purple color */
+    border-top: 5px solid #7c0668;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+    }
+</style>
+  <div class="tab-container">
+    <button class="tab-button active" onclick="showTab('loan')">Loan</button>
+    <button class="tab-button" onclick="showTab('emi')">EMI</button>
+    <button class="tab-button" onclick="showTab('interest')">Interest</button>
+    <button class="tab-button" onclick="showTab('investment')">Investment</button>
+  </div>
+
+  <div class="calculator-section active" id="loan">
+    <h2>Loan Calculator</h2>
+    <div class="input-group">
+      <label>Principal Amount (₹):</label>
+      <input type="number" id="loanPrincipal">
+    </div>
+    <div class="input-group">
+      <label>Interest Rate (% per annum):</label>
+      <input type="number" id="loanRate">
+    </div>
+    <div class="input-group">
+      <label>Loan Term (years):</label>
+      <input type="number" id="loanTerm">
+    </div>
+    <button class="tab-button" onclick="calculateLoan()">Calculate</button>
+    <div class="result" id="loanResult"></div>
+  </div>
+
+  <div class="calculator-section" id="emi">
+    <h2>EMI Calculator</h2>
+    <div class="input-group">
+      <label>Loan Amount (₹):</label>
+      <input type="number" id="emiAmount">
+    </div>
+    <div class="input-group">
+      <label>Annual Interest Rate (%):</label>
+      <input type="number" id="emiRate">
+    </div>
+    <div class="input-group">
+      <label>Tenure (in months):</label>
+      <input type="number" id="emiMonths">
+    </div>
+    <button class="tab-button" onclick="calculateEMI()">Calculate</button>
+    <div class="result" id="emiResult"></div>
+  </div>
+
+  <div class="calculator-section" id="interest">
+    <h2>Interest Calculator (Simple Interest)</h2>
+    <div class="input-group">
+      <label>Principal Amount (₹):</label>
+      <input type="number" id="intPrincipal">
+    </div>
+    <div class="input-group">
+      <label>Interest Rate (%):</label>
+      <input type="number" id="intRate">
+    </div>
+    <div class="input-group">
+      <label>Time (years):</label>
+      <input type="number" id="intTime">
+    </div>
+    <button class="tab-button" onclick="calculateInterest()">Calculate</button>
+    <div class="result" id="interestResult"></div>
+  </div>
+
+  <div class="calculator-section" id="investment">
+    <h2>Investment Return Calculator</h2>
+    <div class="input-group">
+      <label>Initial Investment (₹):</label>
+      <input type="number" id="invPrincipal">
+    </div>
+    <div class="input-group">
+      <label>Annual Return Rate (%):</label>
+      <input type="number" id="invRate">
+    </div>
+    <div class="input-group">
+      <label>Investment Duration (years):</label>
+      <input type="number" id="invTime">
+    </div>
+    <button class="tab-button" onclick="calculateInvestment()">Calculate</button>
+    <div class="result" id="investmentResult"></div>
+  </div>
+
+  <footer>
+    © 2025 Calculator Hub | Financial Tools
+  </footer>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.calculator-section').forEach(sec => sec.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function calculateLoan() {
+      const P = parseFloat(document.getElementById("loanPrincipal").value);
+      const R = parseFloat(document.getElementById("loanRate").value) / 100;
+      const T = parseFloat(document.getElementById("loanTerm").value);
+      const totalInterest = P * R * T;
+      const totalAmount = P + totalInterest;
+      document.getElementById("loanResult").innerText = `Total Repayable: ₹${totalAmount.toFixed(2)} | Interest: ₹${totalInterest.toFixed(2)}`;
+    }
+
+    function calculateEMI() {
+      const P = parseFloat(document.getElementById("emiAmount").value);
+      const R = parseFloat(document.getElementById("emiRate").value) / 1200;
+      const N = parseFloat(document.getElementById("emiMonths").value);
+      const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+      document.getElementById("emiResult").innerText = `Monthly EMI: ₹${emi.toFixed(2)}`;
+    }
+
+    function calculateInterest() {
+      const P = parseFloat(document.getElementById("intPrincipal").value);
+      const R = parseFloat(document.getElementById("intRate").value);
+      const T = parseFloat(document.getElementById("intTime").value);
+      const interest = (P * R * T) / 100;
+      const total = P + interest;
+      document.getElementById("interestResult").innerText = `Interest: ₹${interest.toFixed(2)} | Total: ₹${total.toFixed(2)}`;
+    }
+
+    function calculateInvestment() {
+      const P = parseFloat(document.getElementById("invPrincipal").value);
+      const R = parseFloat(document.getElementById("invRate").value) / 100;
+      const T = parseFloat(document.getElementById("invTime").value);
+      const amount = P * Math.pow(1 + R, T);
+      const gain = amount - P;
+      document.getElementById("investmentResult").innerText = `Total Amount: ₹${amount.toFixed(2)} | Gain: ₹${gain.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
